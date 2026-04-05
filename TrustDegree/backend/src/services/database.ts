@@ -61,6 +61,7 @@ export class DatabaseService {
       process.env.SCHEMA_SQL_PATH,
       path.resolve(__dirname, "../../sql/schema.sql"),
       path.resolve(process.cwd(), "sql/schema.sql"),
+      path.resolve(process.cwd(), "backend/sql/schema.sql"),
     ].filter((candidate): candidate is string => !!candidate);
 
     let schemaPath: string | null = null;
@@ -88,6 +89,10 @@ export class DatabaseService {
   async close(): Promise<void> {
     await db.end();
     this.initialized = false;
+  }
+
+  async ping(): Promise<void> {
+    await db.query("SELECT 1");
   }
 
   private mapDegreeRow(row: any): DegreeRecord {

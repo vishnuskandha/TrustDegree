@@ -27,6 +27,10 @@ TrustDegree is a **decentralized academic credential verification system** that 
 
 Universities create digital credentials → Students receive them in their wallets → Employers verify instantly by scanning a QR code.
 
+## Deployment
+
+For production deployment instructions (Vercel frontend + Render backend + managed PostgreSQL), see `DEPLOYMENT.md`.
+
 ###  Why TrustDegree?
 
 | Feature | Benefit |

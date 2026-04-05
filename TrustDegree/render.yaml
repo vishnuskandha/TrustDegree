@@ -1,0 +1,45 @@
+services:
+  - type: web
+    name: trustdegree-api
+    env: docker
+    dockerContext: ./backend
+    dockerfilePath: ./backend/Dockerfile
+    autoDeploy: true
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+      - key: DATABASE_URL
+        sync: false
+      - key: PG_SSL_CA
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: CONTRACT_ADDRESS
+        sync: false
+      - key: PRIVATE_KEY
+        sync: false
+      - key: POLYGON_MUMBAI_RPC
+        sync: false
+      - key: ALLOWED_ORIGINS
+        sync: false
+      - key: API_URL
+        sync: false
+      - key: SCHEMA_SQL_PATH
+        value: /app/sql/schema.sql
+      - key: RATE_LIMIT_WINDOW_MS
+        value: 900000
+      - key: RATE_LIMIT_MAX_REQUESTS
+        value: 100
+      - key: READY_RATE_LIMIT_WINDOW_MS
+        value: 60000
+      - key: READY_RATE_LIMIT_MAX_REQUESTS
+        value: 60
+      - key: PG_POOL_MAX
+        value: 10
+      - key: PG_POOL_IDLE_TIMEOUT_MS
+        value: 30000
+      - key: PG_POOL_CONNECTION_TIMEOUT_MS
+        value: 10000

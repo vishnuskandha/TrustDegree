@@ -36,11 +36,14 @@ Configure:
 |----------|-------------|
 | `PORT` | Server port (default: 3000) |
 | `DATABASE_URL` | PostgreSQL connection string |
+| `PG_SSL_CA` | Required in production/staging for PostgreSQL TLS certificate validation |
 | `JWT_SECRET` | Random secret for JWT signing (change this!) |
 | `CONTRACT_ADDRESS` | Deployed TrustDegree contract address |
 | `PRIVATE_KEY` | Admin wallet private key for minting/revoke |
 | `POLYGON_MUMBAI_RPC` | RPC endpoint (default provided) |
 | `ALLOWED_ORIGINS` | Comma-separated CORS origins |
+| `API_URL` | Public backend base URL used when generating verification links |
+| `SCHEMA_SQL_PATH` | Optional override path for schema.sql |
 
 ### 3. Database Setup
 
@@ -51,11 +54,17 @@ psql -d trustdegree -f sql/schema.sql
 
 ### 4. Pre-register Admin Wallet
 
-```sql
-INSERT INTO admins (wallet_address, name) VALUES ('0xYourAdminWallet', 'Admin');
+```bash
+ADMIN_WALLET_ADDRESS=0xYourAdminWalletAddress npm run admin:bootstrap
 ```
 
-Or just use `/api/auth/admin-login` with your wallet - it auto-registers for demo.
+Optional values for the bootstrap script:
+
+- `ADMIN_NAME`
+- `ADMIN_EMAIL`
+- `ADMIN_IS_ACTIVE`
+
+This route does not auto-register admins. Wallets must already exist in the `admins` table.
 
 ### 5. Run Development Server
 
@@ -111,6 +120,7 @@ Response:
 | Method | Endpoint | Description |
 |--------|----------|-------------|
 | `GET` | `/health` | Health check |
+| `GET` | `/ready` | Readiness check (database) |
 | `POST` | `/api/auth/challenge` | Create one-time login challenge |
 | `POST` | `/api/auth/admin-login` | Get JWT admin token |
 | `POST` | `/api/issue` | Issue new degree (admin) |
@@ -193,6 +203,7 @@ Response:
 | `npm run dev` | Start dev server with hot reload |
 | `npm run build` | Compile TypeScript to JavaScript |
 | `npm start` | Run production server |
+| `npm run admin:bootstrap` | Insert or update the initial admin wallet |
 | `npm test` | Run tests |
 | `npm run lint` | Lint TypeScript |
 
