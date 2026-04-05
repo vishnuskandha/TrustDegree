@@ -1,0 +1,11 @@
+{
+  "required": "This field is required",
+  "invalidEmail": "Invalid email address",
+  "invalidAddress": "Invalid Ethereum address",
+  "invalidYear": "Invalid year (must be between 1900 and 2100)",
+  "minLength": "Must be at least {{min}} characters",
+  "maxLength": "Must be at most {{max}} characters",
+  "networkError": "Network error. Please check your connection.",
+  "unauthorized": "Unauthorized access. Please log in again.",
+  "unknown": "An unknown error occurred"
+}

@@ -1,0 +1,12 @@
+{
+  "blockchain": "A digital ledger that records transactions securely",
+  "soulbound": "A token that cannot be transferred - forever tied to owner",
+  "contract": "An automated program that runs on the blockchain",
+  "minting": "Creating a new digital credential",
+  "gasFee": "Transaction fee paid to process blockchain operations",
+  "polygon": "A fast, low-cost Ethereum-compatible blockchain network",
+  "ipfs": "Decentralized storage system for permanent file hosting",
+  "nft": "Non-fungible token - a unique digital asset",
+  "wallet": "A digital wallet for storing cryptocurrencies and tokens",
+  "verification": "Checking a credential's authenticity on the blockchain"
+}

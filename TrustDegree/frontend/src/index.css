@@ -1,0 +1,245 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ==========================================
+   TRUSTDEGREE DESIGN SYSTEM
+   CSS Custom Properties (Design Tokens)
+   Generated from src/styles/design-tokens.ts
+   ========================================== */
+:root {
+  /* Colors */
+  --color-primary: #0369A1;
+  --color-primary-foreground: #FFFFFF;
+  --color-secondary: #0EA5E9;
+  --color-secondary-foreground: #0F172A;
+  --color-accent: #A16207;
+  --color-accent-foreground: #FFFFFF;
+  --color-background: #F0F9FF;
+  --color-foreground: #0C4A6E;
+  --color-card: #FFFFFF;
+  --color-card-foreground: #0C4A6E;
+  --color-muted: #E7EFF5;
+  --color-muted-foreground: #64748B;
+  --color-border: #BAE6FD;
+  --color-destructive: #DC2626;
+  --color-destructive-foreground: #FFFFFF;
+  --color-ring: #0369A1;
+
+  --gradient-primary: linear-gradient(135deg, #0369A1, #0EA5E9);
+
+  /* Fonts */
+  --font-display: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', 'Segoe UI', sans-serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+
+  /* Font Sizes (rem) */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+  --text-5xl: 3rem;
+  --text-6xl: 3.75rem;
+  --text-7xl: 4.5rem;
+  --text-8xl: 6rem;
+  --text-9xl: 8rem;
+
+  /* Line Heights */
+  --line-height-tight: 1.25;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.625;
+
+  /* Spacing (4px base) */
+  --space-0: 0;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+
+  /* Border Radius */
+  --radius-sm: 0.5rem;
+  --radius-md: 1rem;
+  --radius-lg: 1.5rem;
+  --radius-xl: 9999px;
+  --radius-2xl: 2rem;
+
+  /* Shadows (colored using primary) */
+  --shadow-sm: 0 1px 2px 0 rgba(3, 105, 161, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(3, 105, 161, 0.1), 0 2px 4px -2px rgba(3, 105, 161, 0.05);
+  --shadow-lg: 0 10px 15px -3px rgba(3, 105, 161, 0.15), 0 4px 6px -4px rgba(3, 105, 161, 0.1);
+  --shadow-xl: 0 20px 25px -5px rgba(3, 105, 161, 0.2), 0 8px 10px -6px rgba(3, 105, 161, 0.1);
+  --shadow-primary: 0 0 15px rgba(3, 105, 161, 0.3);
+  --shadow-glass: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+
+  /* Animation */
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --duration-slow: 400ms;
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-spring: cubic-bezier(0.2, 0, 0, 1);
+
+  /* Breakpoints (for reference) */
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+}
+
+/* ==========================================
+   BASE STYLES
+   ========================================== */
+@layer base {
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Typography using design tokens */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    color: var(--color-foreground);
+    line-height: var(--line-height-tight);
+  }
+
+  h1 { font-size: var(--text-5xl); }
+  h2 { font-size: var(--text-4xl); }
+  h3 { font-size: var(--text-3xl); }
+  h4 { font-size: var(--text-2xl); }
+  h5 { font-size: var(--text-xl); }
+  h6 { font-size: var(--text-lg); }
+
+  p, li, a, span {
+    font-size: var(--text-base);
+    line-height: var(--line-height-normal);
+  }
+
+  code, pre, .font-mono {
+    font-family: var(--font-mono);
+  }
+
+  /* Selection color */
+  ::selection {
+    background-color: var(--color-primary);
+    color: var(--color-primary-foreground);
+  }
+}
+
+@layer components {
+  /* Premium Glassmorphism Card */
+  .card {
+    @apply bg-white/80 backdrop-blur-xl border border-white/50 p-6 rounded-2xl shadow-glass relative overflow-hidden transition-all duration-300 hover:shadow-lg hover:border-primary;
+  }
+
+  /* Sleek Modern Inputs */
+  .input-field {
+    @apply w-full px-4 py-3 bg-white/50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-ring focus:border-primary transition-all duration-200 backdrop-blur-sm placeholder:text-slate-400;
+  }
+
+  /* Bold, Dynamic Primary Button */
+  .btn-primary {
+    @apply relative px-6 py-3 bg-primary text-white rounded-xl font-semibold overflow-hidden transition-all duration-300 shadow-md hover:shadow-neon hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-md;
+    background-image: var(--gradient-primary);
+  }
+  
+  .btn-primary::after {
+    content: '';
+    @apply absolute inset-0 bg-white/20 opacity-0 transition-opacity duration-300;
+  }
+
+  .btn-primary:hover::after {
+    @apply opacity-100;
+  }
+
+  /* Clean Secondary Button */
+  .btn-secondary {
+    @apply px-6 py-3 bg-white border border-slate-200 text-slate-700 rounded-xl font-semibold transition-all duration-300 hover:bg-slate-50 hover:border-slate-300 hover:-translate-y-0.5 active:translate-y-0 shadow-sm;
+  }
+
+  /* Status Badges */
+  .badge {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-bold tracking-wide uppercase shadow-sm;
+  }
+
+  .badge-success {
+    @apply bg-emerald-100 text-emerald-800 border border-emerald-200;
+  }
+
+  .badge-error {
+    @apply bg-rose-100 text-rose-800 border border-rose-200;
+  }
+}
+
+/* Custom Scrollbar for a premium feel */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  @apply bg-slate-100 rounded-full;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-slate-300 rounded-full hover:bg-slate-400 transition-colors;
+}
+
+/* Beautiful Animated Background Setup */
+.bg-mesh {
+  background-color: #f8fafc;
+  background-image: 
+    radial-gradient(at 16% 18%, hsla(190, 92%, 64%, 0.20) 0px, transparent 50%),
+    radial-gradient(at 85% 8%, hsla(37, 94%, 66%, 0.18) 0px, transparent 48%),
+    radial-gradient(at 82% 82%, hsla(197, 88%, 70%, 0.16) 0px, transparent 52%),
+    radial-gradient(at 5% 82%, hsla(28, 96%, 72%, 0.13) 0px, transparent 50%);
+  background-attachment: fixed;
+}
+
+.page-shell {
+  position: relative;
+  min-height: calc(100vh - 7rem);
+}
+
+.page-shell::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(to right, rgba(100, 116, 139, 0.09) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(100, 116, 139, 0.09) 1px, transparent 1px);
+  background-size: 48px 48px;
+  opacity: 0.4;
+}
+
+.page-content {
+  position: relative;
+  z-index: 1;
+}
+
+.pro-panel {
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.92), rgba(248, 250, 252, 0.78));
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  border-radius: 1.25rem;
+  box-shadow: 0 20px 38px rgba(15, 23, 42, 0.08);
+  backdrop-filter: blur(18px);
+}
+
+.pro-hero {
+  background: linear-gradient(120deg, rgba(2, 132, 199, 0.95), rgba(12, 74, 110, 0.96));
+  color: #f8fafc;
+  border-radius: 1.5rem;
+  border: 1px solid rgba(186, 230, 253, 0.35);
+  box-shadow: 0 24px 54px rgba(3, 105, 161, 0.3);
+}

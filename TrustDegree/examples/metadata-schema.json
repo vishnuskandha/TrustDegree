@@ -1,0 +1,74 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "TrustDegree Metadata",
+  "description": "Metadata object stored on-chain (IPFS) for a TrustDegree token",
+  "type": "object",
+  "required": ["name", "description", "university", "degreeType", "graduationYear", "studentName", "studentAddress"],
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Full degree title (e.g., 'Bachelor of Science in Computer Science')"
+    },
+    "description": {
+      "type": "string",
+      "description": "Longer description of the credential"
+    },
+    "university": {
+      "type": "string",
+      "description": "Issuing university name"
+    },
+    "universityWebsite": {
+      "type": "string",
+      "format": "uri",
+      "description": "University website URL (optional)"
+    },
+    "degreeType": {
+      "type": "string",
+      "description": "Degree type abbreviation (e.g., B.Sc., M.Sc., Ph.D.)"
+    },
+    "major": {
+      "type": "string",
+      "description": "Major or specialization (optional)"
+    },
+    "graduationYear": {
+      "type": "string",
+      "description": "Year of graduation (e.g., '2024')"
+    },
+    "studentName": {
+      "type": "string",
+      "description": "Full name of student"
+    },
+    "studentAddress": {
+      "type": "string",
+      "pattern": "^0x[a-fA-F0-9]{40}$",
+      "description": "Student's wallet address"
+    },
+    "gpa": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 4.0,
+      "description": "Graduation GPA (optional)"
+    },
+    "honors": {
+      "type": "string",
+      "description": "Honors designation (e.g., 'Summa Cum Laude') (optional)"
+    },
+    "courses": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "code": { "type": "string" },
+          "name": { "type": "string" },
+          "credits": { "type": "number" },
+          "grade": { "type": "string" }
+        }
+      },
+      "description": "List of courses taken (optional, detailed)"
+    },
+    "additionalInfo": {
+      "type": "object",
+      "description": "Any other structured metadata (custom extensions)"
+    }
+  }
+}

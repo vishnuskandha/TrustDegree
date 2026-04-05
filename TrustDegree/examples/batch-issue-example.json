@@ -1,0 +1,26 @@
+[
+  {
+    "studentAddress": "0x1234567890123456789012345678901234567890",
+    "studentName": "Alice Johnson",
+    "university": "Tech University",
+    "degreeType": "B.Sc. Computer Science",
+    "graduationYear": "2024",
+    "metadataUri": "ipfs://QmExampleHash1"
+  },
+  {
+    "studentAddress": "0x0987654321098765432109876543210987654321",
+    "studentName": "Bob Smith",
+    "university": "Tech University",
+    "degreeType": "M.Sc. Data Science",
+    "graduationYear": "2024",
+    "metadataUri": "ipfs://QmExampleHash2"
+  },
+  {
+    "studentAddress": "0xfedcba0987654321fedcba0987654321fedcba09",
+    "studentName": "Carol Williams",
+    "university": "Tech University",
+    "degreeType": "B.A. Economics",
+    "graduationYear": "2023",
+    "metadataUri": "ipfs://QmExampleHash3"
+  }
+]

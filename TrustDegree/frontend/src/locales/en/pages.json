@@ -1,0 +1,464 @@
+{
+  "home": {
+    "hero": {
+      "badge": "TrustDegree AI Now Live",
+      "title": "Trusted Digital Diplomas for Everyone",
+      "subtitle": "Your academic certificates, safely stored on the blockchain. Anyone can verify them instantly. No fake degrees. No paperwork.",
+      "onChainProof": "On-chain Proof",
+      "cta": {
+        "primary": "Try Verification",
+        "secondary": "For Universities"
+      },
+      "preview": {
+        "title": "Live Credential Check",
+        "credentialId": "Credential ID",
+        "status": "Status",
+        "statusValue": "Verified Authentic",
+        "issuer": "Issuer",
+        "issuerValue": "Tech University",
+        "proofHash": "Proof hash anchored"
+      }
+    },
+    "trust": {
+      "title": "Trusted by Leading Universities",
+      "subtitle": "Thousands of students already have their degrees on TrustDegree"
+    },
+    "features": {
+      "title": "Why Choose TrustDegree?",
+      "secure": {
+        "title": "Cannot Be Faked",
+        "desc": "Each degree is locked with cryptography. Once created, it can never be changed or deleted."
+      },
+      "wallet": {
+        "title": "You Own It Forever",
+        "desc": "Your degree goes to YOUR digital wallet. Not the university's database. You control it always."
+      },
+      "verify": {
+        "title": "Verify in Seconds",
+        "desc": "Employers scan a QR code and see instant proof. No need to call the university office."
+      },
+      "simple": {
+        "title": "Simple for Everyone",
+        "desc": "No technical knowledge needed. Just a smartphone to scan and verify."
+      }
+    },
+    "stats": {
+      "degrees": "Degrees Issued",
+      "verifications": "Active Verifications",
+      "universities": "Partner Universities",
+      "countries": "Countries"
+    },
+    "how": {
+      "title": "How It Works in 4 Easy Steps",
+      "step1": {
+        "title": "1. Universities Create",
+        "simple": "Like issuing a traditional diploma, but digital",
+        "desc": "College administrators fill out a simple form with student details and degree information. The system creates a secure digital credential and stores it permanently. It's as easy as filling out a form, but much more secure than paper."
+      },
+      "step2": {
+        "title": "2. Students Receive",
+        "simple": "Your diploma lives in your digital wallet",
+        "desc": "The credential is sent directly to the student's digital wallet. Think of it like a digital safe that only the student controls. This is a 'soulbound token' - a special certificate that's permanently linked to the student and cannot be transferred, lost, or forged."
+      },
+      "step3": {
+        "title": "3. Employers Verify",
+        "simple": "Instant verification, no phone calls needed",
+        "desc": "Employers simply scan a QR code with their phone or enter a credential ID on our website. In seconds, they see proof that the credential is genuine - like checking a blockchain receipt. No need to call the university, no waiting, and no chance of fraud."
+      },
+      "step4": {
+        "title": "4. Anyone Verifies",
+        "simple": "Scan the QR to confirm the degree is real in under 5 seconds.",
+        "desc": "Scan the QR to confirm the degree is real in under 5 seconds."
+      }
+    },
+    "demo": {
+      "title": "See It In Action",
+      "subtitle": "Try verifying a sample degree right now. No login needed.",
+      "placeholder": "Enter a degree ID or scan a QR code",
+      "button": "Verify Now",
+      "example": "Try: TRD-2024-001",
+      "result": {
+        "genuine": "This degree is genuine",
+        "name": "Name:",
+        "university": "University:",
+        "year": "Year:"
+      }
+    },
+    "cta": {
+      "title": "Ready to Make Your Degrees Trustworthy?",
+      "subtitle": "Join leading universities using TrustDegree today.",
+      "primary": "Get Started Free",
+      "secondary": "Contact Sales"
+    },
+    "assurance": {
+      "heading": "Built For Trust, Not Vanity Metrics",
+      "subtitle": "This platform focuses on proof quality, verification speed, and operational control.",
+      "items": {
+        "tamperProof": {
+          "title": "Tamper-proof by design",
+          "description": "Every credential is anchored on-chain with immutable ownership and issue history."
+        },
+        "oneScan": {
+          "title": "One-scan verification",
+          "description": "HR teams verify authenticity in seconds using QR or contract and token pair lookup."
+        },
+        "workflow": {
+          "title": "Institution-ready workflow",
+          "description": "Issue credentials in batches, maintain audit trails, and manage revocations from one place."
+        }
+      }
+    },
+    "trustIndicators": {
+      "verifiable": "100% Verifiable",
+      "verifiableDesc": "Every credential can be verified by anyone, anywhere in the world",
+      "fraudProof": "Fraud-Proof",
+      "fraudProofDesc": "Blockchain technology makes forgery impossible",
+      "studentOwned": "Student Owned",
+      "studentOwnedDesc": "Students keep their credentials forever, not the university"
+    }
+  },
+  "verify": {
+    "title": "Check Diploma Authenticity",
+    "subtitle": "Instant blockchain verification for TrustDegree credentials. Verify any academic certificate in seconds.",
+    "mode": {
+      "manual": "Enter Details Manually",
+      "qr": "Scan QR Code"
+    },
+    "form": {
+      "contractLabel": "Smart Contract Address",
+      "contractPlaceholder": "0x...",
+      "contractHelper": "The contract address that issued the diploma",
+      "tokenLabel": "Diploma Number",
+      "tokenPlaceholder": "e.g. 12345",
+      "tokenHelper": "The unique token ID for this credential",
+      "submit": "Check Diploma Authenticity"
+    },
+    "qr": {
+      "prompt": "Scan a TrustDegree verification QR code to instantly check credential authenticity.",
+      "start": "Start Scanning",
+      "cancel": "Cancel Scanning"
+    },
+    "result": {
+      "genuine": "This degree is genuine",
+      "genuineDesc": "Verified permanently on the blockchain",
+      "revoked": "This diploma has been cancelled",
+      "revokedDesc": "This credential has been revoked by the issuer",
+      "notFound": "Diploma not found",
+      "notFoundDesc": "No matching record found",
+      "studentInfo": "Student Information",
+      "institution": "Institution",
+      "credentialDetails": "Credential Details",
+      "blockchainData": "Blockchain Data",
+      "contract": "Contract",
+      "diplomaNumber": "Diploma #",
+      "receipt": "Receipt",
+      "viewOnExplorer": "View on PolygonScan",
+      "qrTitle": "Verification QR Code",
+      "qrDesc": "Scan this code to share the verification link. Anyone can verify this diploma's authenticity.",
+      "copyLink": "Copy Verification Link",
+      "viewReceipt": "View on PolygonScan"
+    },
+    "history": {
+      "title": "Recent Checks",
+      "count": "{{count}} recent",
+      "limit": "Showing last 10 verifications • Clear browser data to reset history"
+    },
+    "error": {
+      "missingFields": "Please provide both smart contract address and diploma number",
+      "invalidQr": "Invalid QR code. Expected format: contract and tokenId parameters.",
+      "invalidQrFormat": "Invalid QR code format. Please try again.",
+      "backendUnavailable": "Verification service is unavailable. Please ensure the backend is running.",
+      "noSampleAvailable": "No sample credential is available yet. Issue a credential first, then try again.",
+      "notFound": "Diploma not found. Please check the smart contract address and diploma number.",
+      "verificationFailed": "Verification failed. Please try again."
+    }
+  },
+  "issue": {
+    "title": "Create Digital Credential",
+    "subtitle": "Issue a verifiable diploma or certificate on the blockchain. Fill in the student and credential details below.",
+    "sections": {
+      "student": "Student Information",
+      "credential": "Credential Information"
+    },
+    "fields": {
+      "studentName": {
+        "label": "Student Full Name",
+        "placeholder": "e.g., Jane Doe",
+        "helper": "Enter the student's full legal name"
+      },
+      "studentAddress": {
+        "label": "Wallet Address",
+        "placeholder": "0x...",
+        "helper": "Ethereum address where the credential will be sent",
+        "validAddress": "Valid Ethereum address"
+      },
+      "university": {
+        "label": "University / Institution",
+        "placeholder": "e.g., Stanford University",
+        "helper": "Name of the issuing institution"
+      },
+      "degreeType": {
+        "label": "Degree Type",
+        "placeholder": "Select a degree type",
+        "helper": "Type of credential being issued"
+      },
+      "graduationYear": {
+        "label": "Graduation Year",
+        "placeholder": "2024",
+        "helper": "Year of graduation (1900-2100)"
+      },
+      "metadataUri": {
+        "label": "Document Link (Optional)",
+        "placeholder": "https://...",
+        "helper": "URL to additional documentation or metadata (IPFS, etc.)"
+      }
+    },
+    "preview": {
+      "label": "Preview",
+      "studentName": "Student Name",
+      "degreeAndUni": "{{degreeType}} • {{university}}",
+      "classOf": "Class of {{graduationYear}}",
+      "viewDocument": "View Document"
+    },
+    "gasEstimate": "Estimated gas fee",
+    "buttons": {
+      "clear": "Clear",
+      "saveDraft": "Save Draft",
+      "create": "Create Credential",
+      "backToDashboard": "Back to Dashboard"
+    },
+    "modal": {
+      "title": "Create Digital Credential?",
+      "description": "This action will mint a verifiable credential on the blockchain",
+      "confirmDetails": "Please confirm the following details before proceeding:",
+      "student": "Student:",
+      "institution": "Institution:",
+      "degree": "Degree:",
+      "year": "Year:",
+      "gasFee": "Gas fee: ~{{amount}} will be charged",
+      "cancel": "Cancel",
+      "create": "Create"
+    },
+    "success": {
+      "title": "Credential Created!",
+      "description": "The digital credential has been successfully minted on the blockchain",
+      "qrTitle": "Scan this QR code to verify the credential authenticity",
+      "verificationDetails": "Verification Details",
+      "contractAddress": "Smart Contract Address",
+      "blockchainReceipt": "Blockchain Receipt",
+      "verificationUrl": "Verification URL"
+    },
+    "degreeOptions": [
+      { "value": "Bachelor", "label": "Bachelor's Degree" },
+      { "value": "Master", "label": "Master's Degree" },
+      { "value": "PhD", "label": "Doctor of Philosophy (PhD)" },
+      { "value": "Diploma", "label": "Diploma" },
+      { "value": "Certificate", "label": "Certificate" }
+    ]
+  },
+  "howItWorks": {
+    "title": "How TrustDegree Works",
+    "subtitle": "A simple, secure way for universities to issue and employers to verify academic credentials. No phone calls. No paperwork. No fraud.",
+    "badges": {
+      "blockchain": "Blockchain Secured",
+      "tamperProof": "Tamper-Proof",
+      "instant": "Instant Verification"
+    },
+    "steps": [
+      {
+        "title": "1. Universities Create",
+        "simple": "Like issuing a traditional diploma, but digital",
+        "badge": "Admin Dashboard"
+      },
+      {
+        "title": "2. Students Receive",
+        "simple": "Your diploma lives in your digital wallet",
+        "badge": "Digital Ownership"
+      },
+      {
+        "title": "3. Employers Verify",
+        "simple": "Instant verification, no phone calls needed",
+        "badge": "Instant Check"
+      }
+    ],
+    "demo": {
+      "title": "Try It Yourself",
+      "subtitle": "Experience how easy verification is. Use our demo tool to scan a sample credential and see the blockchain proof for yourself.",
+      "verifyButton": "Verify a Sample Credential",
+      "backButton": "Back to Home",
+      "timeEstimate": "It only takes about 10 seconds to verify"
+    },
+    "trust": {
+      "verifiable": "100% Verifiable",
+      "verifiableDesc": "Every credential can be verified by anyone, anywhere in the world",
+      "fraudProof": "Fraud-Proof",
+      "fraudProofDesc": "Blockchain technology makes forgery impossible",
+      "studentOwned": "Student Owned",
+      "studentOwnedDesc": "Students keep their credentials forever, not the university"
+    },
+    "cta": {
+      "title": "Ready to Get Started?",
+      "subtitle": "Join universities and employers already using TrustDegree to secure academic credentials.",
+      "issue": "Issue Your First Credential",
+      "verify": "Try Verification"
+    }
+  },
+  "technicalDocs": {
+    "title": "Technical Documentation",
+    "subtitle": "Implementation details, API specifications, and architecture diagrams for developers integrating with TrustDegree.",
+    "warning": {
+      "title": "Technical Documentation for Developers",
+      "description": "This page contains detailed technical information for developers and system integrators. For a simple, non-technical explanation of how TrustDegree works, see How It Works."
+    },
+    "sections": {
+      "architecture": "Architecture",
+      "contract": "Smart Contract",
+      "api": "Backend API",
+      "frontend": "Frontend",
+      "blockchain": "Blockchain"
+    },
+    "architecture": {
+      "title": "System Architecture Overview",
+      "description": "TrustDegree uses a decentralized architecture with clear separation of concerns across four main layers:",
+      "keyDesign": "Key Design Principle: All trust anchors live on the public blockchain. Even if our servers go down, credentials remain verifiable through the blockchain and IPFS.",
+      "components": {
+        "frontend": "Frontend Application (React): Responsive web app with public pages (Home, Verify) and admin-only dashboard",
+        "backend": "Backend API (Express.js): REST API handling authentication, data validation, and blockchain interactions",
+        "contract": "Smart Contract (Solidity): Deployed on Polygon Mumbai, manages credential minting and verification",
+        "ipfs": "IPFS Storage: Stores actual credential files (PDFs, images) with content-addressed hashes",
+        "database": "PostgreSQL Database: Caches frequently accessed data and stores user sessions"
+      }
+    },
+    "contract": {
+      "title": "Smart Contract",
+      "description": "The core of TrustDegree is an ERC-721 smart contract deployed on Polygon Mumbai. It implements soulbound token functionality (non-transferable NFTs) for academic credentials.",
+      "keyFunctions": "Key Functions:",
+      "functions": {
+        "issueDegree": "issueDegree(address to, string studentName, string degreeType, string ipfsHash) - Called by university admin (onlyOwner) to mint a new credential",
+        "getDegree": "getDegree(uint256 tokenId) - Public view function to retrieve credential metadata",
+        "ownedBy": "ownedBy(address owner) - Inherited from ERC721 - used to verify token ownership"
+      },
+      "fullCode": "Full Contract Code:",
+      "note": "Note: This is a simplified example. Production contract includes additional access control, events, and security measures."
+    },
+    "api": {
+      "title": "Backend API Reference",
+      "description": "The REST API is built with Express.js and provides endpoints for credential management, verification, and user authentication.",
+      "endpoints": "Endpoint Reference:",
+      "auth": "Authentication:",
+      "authDesc": "Admin endpoints require JWT Bearer token in Authorization header:",
+      "baseUrl": "Base URL:"
+    },
+    "frontend": {
+      "title": "Frontend Application",
+      "description": "Built with React 18, TypeScript, Tailwind CSS, and Framer Motion. Uses a component library based on Radix UI patterns.",
+      "techStack": "Tech Stack:",
+      "structure": "Project Structure:",
+      "keyComponents": "Key Components:",
+      "components": {
+        "section": "Section: Animated container with scroll-triggered reveal using Framer Motion",
+        "card": "Card: Flexible container with optional hover effects and variants",
+        "button": "Button: Component with multiple variants (primary, secondary, etc.) Supports loading states and icon positions.",
+        "animatedRoutes": "AnimatedRoutes: Page transition wrapper with smooth route animations"
+      }
+    },
+    "blockchain": {
+      "title": "Blockchain Configuration",
+      "description": "TrustDegree uses the Polygon network (testnet for development, mainnet for production) for its public, decentralized ledger.",
+      "testnet": "Testnet (Current)",
+      "production": "Production (Planned)",
+      "network": "Network:",
+      "chainId": "Chain ID:",
+      "rpcUrl": "RPC URL:",
+      "explorer": "Explorer:",
+      "deployedAddress": "Deployed Contract Address:",
+      "whyPolygon": "Why Polygon? Low transaction fees, fast confirmation (~2 seconds), and Ethereum compatibility make Polygon ideal for credential verification."
+    },
+    "glossary": "Glossary"
+  },
+  "credentials": {
+    "title": "Diplomas & Certificates",
+    "totalRecords": "Total Records: {{count}}",
+    "backToDashboard": "Back to Dashboard",
+    "error": "Failed to fetch credentials",
+    "warning": "Dataset Limited",
+    "warningDesc": "Only the first 500 credentials are loaded for filtering. Use search to find specific records, or contact your system administrator to increase the limit.",
+    "filters": {
+      "searchPlaceholder": "Search by name or university...",
+      "statusLabel": "Filter by status",
+      "typeLabel": "Filter by type",
+      "dateLabel": "Filter by date",
+      "showOnly": "Show only",
+      "activeFilters": "Active filters:",
+      "clearAll": "Clear all"
+    },
+    "status": {
+      "valid": "Valid",
+      "revoked": "Cancelled"
+    },
+    "dateRange": {
+      "all": "All time",
+      "30days": "Last 30 days",
+      "year": "Last year"
+    },
+    "bulkActions": {
+      "selected": "{{count}} selected",
+      "revoke": "Revoke Selected",
+      "export": "Export CSV",
+      "cancel": "Cancel"
+    },
+    "table": {
+      "student": "Student",
+      "university": "University",
+      "degree": "Degree",
+      "status": "Status",
+      "created": "Created",
+      "actions": "Actions"
+    },
+    "empty": {
+      "title": "No Credentials Found",
+      "noFilters": "There are no credentials in the system yet. Start by issuing your first diploma or certificate.",
+      "withFilters": "No results match your current filters. Try adjusting your search criteria.",
+      "action": "Issue First Credential"
+    },
+    "pagination": {
+      "showing": "Showing <1>{{start}}</1> to <2>{{end}}</2> of <3>{{total}}</3> results",
+      "perPage": "{{n}} per page",
+      "previous": "Previous",
+      "next": "Next"
+    }
+  },
+  "admin": {
+    "dashboard": {
+      "title": "Admin Dashboard",
+      "welcome": "Welcome to the TrustDegree Admin Panel",
+      "quickStats": {
+        "title": "Quick Statistics",
+        "totalCredentials": "Total Credentials",
+        "activeStudents": "Active Students",
+        "universities": "Partner Universities"
+      },
+      "recentActivity": {
+        "title": "Recent Activity",
+        "noActivity": "No recent activity"
+      },
+      "quickActions": {
+        "title": "Quick Actions",
+        "issueCredential": "Issue New Credential",
+        "manageCredentials": "Manage Credentials",
+        "viewAnalytics": "View Analytics"
+      }
+    }
+  },
+  "errors": {
+    "required": "This field is required",
+    "invalidEmail": "Invalid email address",
+    "invalidAddress": "Invalid Ethereum address",
+    "invalidYear": "Invalid year (must be between 1900 and 2100)",
+    "minLength": "Must be at least {{min}} characters",
+    "maxLength": "Must be at most {{max}} characters",
+    "networkError": "Network error. Please check your connection.",
+    "unauthorized": "Unauthorized access. Please log in again.",
+    "unknown": "An unknown error occurred"
+  }
+}

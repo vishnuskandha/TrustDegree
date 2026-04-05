@@ -1,0 +1,38 @@
+{
+  "nav": {
+    "home": "Home",
+    "howItWorks": "How It Works",
+    "verify": "Verify",
+    "technicalDocs": "Technical Docs",
+    "admin": "Admin",
+    "dashboard": "Dashboard",
+    "login": "Admin Login"
+  },
+  "actions": {
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "copy": "Copy",
+    "copied": "Copied!",
+    "share": "Share",
+    "trySample": "Try Sample Diploma",
+    "clear": "Clear",
+    "saveDraft": "Save Draft",
+    "create": "Create",
+    "back": "Back",
+    "close": "Close",
+    "confirm": "Confirm"
+  },
+  "status": {
+    "valid": "Authentic Diploma",
+    "revoked": "Diploma Cancelled",
+    "invalid": "Diploma Not Found"
+  },
+  "labels": {
+    "search": "Search",
+    "filter": "Filter",
+    "sort": "Sort",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success"
+  }
+}

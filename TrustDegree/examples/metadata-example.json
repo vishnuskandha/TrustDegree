@@ -1,0 +1,44 @@
+{
+  "name": "Bachelor of Science in Computer Science",
+  "description": "This degree certifies that the student has completed all requirements for the B.Sc. in Computer Science with honors.",
+  "university": "Tech University",
+  "universityWebsite": "https://techuniversity.edu",
+  "degreeType": "B.Sc.",
+  "major": "Computer Science",
+  "graduationYear": "2024",
+  "studentName": "Alice Johnson",
+  "studentAddress": "0x1234567890123456789012345678901234567890",
+  "gpa": 3.85,
+  "honors": "Summa Cum Laude",
+  "courses": [
+    {
+      "code": "CS101",
+      "name": "Introduction to Programming",
+      "credits": 3,
+      "grade": "A"
+    },
+    {
+      "code": "CS201",
+      "name": "Data Structures",
+      "credits": 3,
+      "grade": "A"
+    },
+    {
+      "code": "CS301",
+      "name": "Algorithms",
+      "credits": 3,
+      "grade": "A-"
+    },
+    {
+      "code": "CS401",
+      "name": "Software Engineering",
+      "credits": 3,
+      "grade": "A"
+    }
+  ],
+  "additionalInfo": {
+    "department": "Department of Computer Science",
+    "accreditation": "ABET Accredited",
+    "totalCredits": 120
+  }
+}
