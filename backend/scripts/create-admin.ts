@@ -15,6 +15,13 @@ const {
 
 const runtimeEnv = NODE_ENV || "development";
 const isProductionLike = runtimeEnv === "production" || runtimeEnv === "staging";
+const isRenderRuntime = Boolean(
+  process.env.RENDER ||
+  process.env.RENDER_SERVICE_ID ||
+  process.env.RENDER_EXTERNAL_HOSTNAME ||
+  process.env.RENDER_EXTERNAL_URL
+);
+const isCloudRuntime = isProductionLike || isRenderRuntime;
 
 const normalizeWalletAddress = (value: string | undefined): string => {
   if (!value) {
@@ -51,10 +58,6 @@ const main = async (): Promise<void> => {
     throw new Error("DATABASE_URL is required.");
   }
 
-  if (isProductionLike && !PG_SSL_CA) {
-    throw new Error("PG_SSL_CA is required in production/staging.");
-  }
-
   const walletAddress = normalizeWalletAddress(ADMIN_WALLET_ADDRESS);
   const adminName = (ADMIN_NAME || "Primary Admin").trim();
   const adminEmail = ADMIN_EMAIL?.trim() || null;
@@ -62,11 +65,15 @@ const main = async (): Promise<void> => {
 
   const pool = new Pool({
     connectionString: DATABASE_URL,
-    ssl: isProductionLike
-      ? {
-          rejectUnauthorized: true,
-          ca: PG_SSL_CA?.replace(/\\n/g, "\n"),
-        }
+    ssl: isCloudRuntime
+      ? (PG_SSL_CA
+        ? {
+            rejectUnauthorized: true,
+            ca: PG_SSL_CA.replace(/\\n/g, "\n"),
+          }
+        : {
+            rejectUnauthorized: true,
+          })
       : false,
   });
 

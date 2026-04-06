@@ -27,6 +27,14 @@ const {
 const runtimeEnv = NODE_ENV || "development";
 const isProductionLike = runtimeEnv === "production" || runtimeEnv === "staging";
 const isTest = runtimeEnv === "test";
+const isRenderRuntime = Boolean(
+  process.env.RENDER ||
+  process.env.RENDER_SERVICE_ID ||
+  process.env.RENDER_EXTERNAL_HOSTNAME ||
+  process.env.RENDER_EXTERNAL_URL
+);
+const isCloudRuntime = isProductionLike || isRenderRuntime;
+const allowLocalDbFallback = runtimeEnv === "development" && !isRenderRuntime;
 
 const parseEnvInt = (raw: string | undefined, fallback: number, envName: string): number => {
   if (!raw) {
@@ -48,6 +56,11 @@ const parseAllowedOrigins = (raw: string | undefined): string[] => {
     .filter((origin) => origin.length > 0);
 };
 
+const isEvmAddress = (value: string): boolean => /^0x[a-fA-F0-9]{40}$/.test(value);
+const isPrivateKey = (value: string): boolean => /^0x[a-fA-F0-9]{64}$/.test(value);
+const isZeroEvmAddress = (value: string): boolean => /^0x0{40}$/i.test(value);
+const isZeroPrivateKey = (value: string): boolean => /^0x0{64}$/i.test(value);
+
 const requireEnv = (name: string, value: string | undefined): string => {
   if (!value) {
     throw new Error(`${name} is required. Set it in backend/.env for local use or in platform secrets for deployment.`);
@@ -56,8 +69,10 @@ const requireEnv = (name: string, value: string | undefined): string => {
   return value;
 };
 
-if (isProductionLike && !DATABASE_URL) {
-  throw new Error("DATABASE_URL is required in production/staging. Use your managed PostgreSQL connection string.");
+if (!isTest && isCloudRuntime && !DATABASE_URL) {
+  throw new Error(
+    "DATABASE_URL is required in cloud deployments (production/staging/Render). Set it to your managed PostgreSQL connection string."
+  );
 }
 
 if (isTest && !TEST_DATABASE_URL) {
@@ -67,19 +82,21 @@ if (isTest && !TEST_DATABASE_URL) {
 const computedDatabaseUrl = isTest
   ? TEST_DATABASE_URL
   : (DATABASE_URL ||
-    `postgresql://${POSTGRES_USER || "postgres"}:${POSTGRES_PASSWORD || "password"}@${POSTGRES_HOST || "localhost"}:${POSTGRES_PORT || "5432"}/${POSTGRES_DB || "trustdegree"}`);
+    (allowLocalDbFallback
+      ? `postgresql://${POSTGRES_USER || "postgres"}:${POSTGRES_PASSWORD || "password"}@${POSTGRES_HOST || "localhost"}:${POSTGRES_PORT || "5432"}/${POSTGRES_DB || "trustdegree"}`
+      : undefined));
 
 if (!computedDatabaseUrl) {
-  throw new Error("Unable to resolve database connection string. Configure DATABASE_URL (or TEST_DATABASE_URL in test mode).");
-}
-
-if (isProductionLike && !PG_SSL_CA) {
-  throw new Error("PG_SSL_CA is required in production/staging to enforce database TLS verification. Set the full PEM certificate with escaped newlines.");
+  throw new Error(
+    "Unable to resolve database connection string. Configure DATABASE_URL (or TEST_DATABASE_URL in test mode)."
+  );
 }
 
 const allowedOrigins = parseAllowedOrigins(ALLOWED_ORIGINS);
-if (isProductionLike && allowedOrigins.length === 0) {
-  throw new Error("ALLOWED_ORIGINS is required in production/staging. Set a comma-separated list of trusted frontend origins.");
+if (!isTest && isCloudRuntime && allowedOrigins.length === 0) {
+  throw new Error(
+    "ALLOWED_ORIGINS is required in cloud deployments. Set a comma-separated list of trusted frontend origins."
+  );
 }
 
 const resolvedAllowedOrigins = allowedOrigins.length > 0
@@ -94,6 +111,34 @@ const jwtSecret = requireEnv("JWT_SECRET", JWT_SECRET);
 const contractAddress = requireEnv("CONTRACT_ADDRESS", CONTRACT_ADDRESS);
 const adminPrivateKey = requireEnv("PRIVATE_KEY", PRIVATE_KEY);
 const rpcUrl = requireEnv("POLYGON_MUMBAI_RPC", POLYGON_MUMBAI_RPC);
+
+if (!isEvmAddress(contractAddress)) {
+  throw new Error("CONTRACT_ADDRESS must be a valid 0x-prefixed 40-hex Ethereum address.");
+}
+
+if (isZeroEvmAddress(contractAddress)) {
+  throw new Error("CONTRACT_ADDRESS cannot be the zero address. Set your deployed TrustDegree contract address.");
+}
+
+if (!isPrivateKey(adminPrivateKey)) {
+  throw new Error("PRIVATE_KEY must be a valid 0x-prefixed 64-hex private key.");
+}
+
+if (isZeroPrivateKey(adminPrivateKey)) {
+  throw new Error("PRIVATE_KEY cannot be all zeros. Set the real admin signer wallet private key.");
+}
+
+let parsedRpcUrl: URL;
+try {
+  // Validate upfront so startup errors point to env configuration, not downstream SDK failures.
+  parsedRpcUrl = new URL(rpcUrl);
+} catch {
+  throw new Error("POLYGON_MUMBAI_RPC must be a valid URL.");
+}
+
+if (!isTest && isCloudRuntime && parsedRpcUrl.protocol !== "https:") {
+  throw new Error("POLYGON_MUMBAI_RPC must use https:// in cloud deployments.");
+}
 
 export const CONFIG = {
   databaseUrl: computedDatabaseUrl,
@@ -111,10 +156,14 @@ export const db = new Pool({
   max: poolMax,
   idleTimeoutMillis: poolIdleTimeoutMillis,
   connectionTimeoutMillis: poolConnectionTimeoutMillis,
-  ssl: isProductionLike
-    ? {
-        rejectUnauthorized: true,
-        ca: PG_SSL_CA?.replace(/\\n/g, "\n"),
-      }
+  ssl: !isTest && isCloudRuntime
+    ? (PG_SSL_CA
+      ? {
+          rejectUnauthorized: true,
+          ca: PG_SSL_CA.replace(/\\n/g, "\n"),
+        }
+      : {
+          rejectUnauthorized: true,
+        })
     : false,
 });

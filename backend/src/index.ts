@@ -25,6 +25,43 @@ const PORT = parseEnvInt(process.env.PORT, 3000);
 let server: ReturnType<typeof app.listen> | null = null;
 let isShuttingDown = false;
 
+type ConnectionRefusedError = {
+  code?: string;
+  address?: string;
+  port?: number;
+};
+
+const isLocalhostRefused = (error: unknown): boolean => {
+  if (!error || typeof error !== "object") {
+    return false;
+  }
+
+  const directError = error as ConnectionRefusedError;
+  if (
+    directError.code === "ECONNREFUSED"
+    && (directError.address === "127.0.0.1" || directError.address === "::1")
+    && directError.port === 5432
+  ) {
+    return true;
+  }
+
+  const maybeAggregate = error as { errors?: unknown[] };
+  if (!Array.isArray(maybeAggregate.errors)) {
+    return false;
+  }
+
+  return maybeAggregate.errors.some((entry) => {
+    if (!entry || typeof entry !== "object") {
+      return false;
+    }
+
+    const connectionError = entry as ConnectionRefusedError;
+    return connectionError.code === "ECONNREFUSED"
+      && (connectionError.address === "127.0.0.1" || connectionError.address === "::1")
+      && connectionError.port === 5432;
+  });
+};
+
 const closeHttpServer = async (): Promise<void> => {
   if (!server) {
     return;
@@ -140,6 +177,11 @@ const startServer = async (): Promise<void> => {
     });
   } catch (error) {
     console.error(" Failed to initialize backend dependencies:", error);
+    if (isLocalhostRefused(error)) {
+      console.error(
+        " Database connection attempted localhost:5432 and was refused. In Render, set DATABASE_URL to your managed Postgres connection string."
+      );
+    }
     process.exit(1);
   }
 };
