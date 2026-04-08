@@ -2,6 +2,7 @@ import { Router, Request, Response } from "express";
 import Joi from "joi";
 import crypto from "crypto";
 import { ethers } from "ethers";
+import { CONFIG } from "../config";
 import { generateAdminToken } from "../middleware/auth";
 import { databaseService } from "../services/database";
 
@@ -50,6 +51,12 @@ router.post("/challenge", async (req: Request, res: Response) => {
     }
 
     const walletAddress = value.walletAddress.toLowerCase();
+    if (walletAddress === CONFIG.contractAddress) {
+      return res.status(400).json({
+        error: "Wallet address cannot be the deployed contract address. Use a MetaMask wallet account address.",
+      });
+    }
+
     const isAdmin = await databaseService.isAdminActive(walletAddress);
 
     if (!isAdmin) {
@@ -91,6 +98,12 @@ router.post("/admin-login", async (req: Request, res: Response) => {
 
     const walletAddress = value.walletAddress.toLowerCase();
     const signature = value.signature;
+
+    if (walletAddress === CONFIG.contractAddress) {
+      return res.status(400).json({
+        error: "Wallet address cannot be the deployed contract address. Use a MetaMask wallet account address.",
+      });
+    }
 
     const isAdmin = await databaseService.isAdminActive(walletAddress);
     if (!isAdmin) {

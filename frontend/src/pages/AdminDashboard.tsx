@@ -93,6 +93,13 @@ export default function AdminDashboard() {
       return "This wallet is not authorized as an active admin. Ask your system administrator to grant admin access.";
     }
 
+    if (
+      status === 400
+      && apiError?.includes("cannot be the deployed contract address")
+    ) {
+      return "The entered address is the deployed contract address, not a wallet. Use your MetaMask account address.";
+    }
+
     if (status === 401 && apiError?.includes("Challenge expired or missing")) {
       return "Login challenge expired. Click Connect Wallet again to request a new challenge.";
     }
@@ -113,6 +120,12 @@ export default function AdminDashboard() {
 
     if (!normalizedWallet) {
       setError("Please enter wallet address");
+      return;
+    }
+
+    const normalizedContractAddress = apiConfig.contractAddress.trim().toLowerCase();
+    if (normalizedContractAddress && normalizedWallet === normalizedContractAddress) {
+      setError("The entered address is the TrustDegree contract address. Use your MetaMask wallet account address instead.");
       return;
     }
 
@@ -225,7 +238,7 @@ export default function AdminDashboard() {
           
           <div className="mt-8 pt-6 border-t border-slate-100">
             <p className="text-xs text-slate-400 font-medium bg-slate-50 p-3 rounded-lg">
-              For demo purposes, any valid Ethereum address works. Production requires Web3 signature.
+              Use an admin-whitelisted MetaMask wallet account address (EOA). Contract addresses are not valid for login.
             </p>
           </div>
         </div>
