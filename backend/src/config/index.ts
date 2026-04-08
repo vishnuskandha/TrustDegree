@@ -1,5 +1,6 @@
 import dotenv from "dotenv";
 import { Pool } from "pg";
+import { ethers } from "ethers";
 
 dotenv.config({ path: ".env" });
 
@@ -21,7 +22,11 @@ const {
   JWT_EXPIRES_IN,
   CONTRACT_ADDRESS,
   PRIVATE_KEY,
+  POLYGON_RPC_URL,
   POLYGON_MUMBAI_RPC,
+  BLOCK_EXPLORER_TX_BASE_URL,
+  POLYGON_EXPLORER_TX_BASE_URL,
+  ADMIN_WALLET_ADDRESS,
 } = process.env;
 
 const runtimeEnv = NODE_ENV || "development";
@@ -69,6 +74,17 @@ const requireEnv = (name: string, value: string | undefined): string => {
   return value;
 };
 
+const parseAdminWalletAllowlist = (raw: string | undefined): string[] => {
+  if (!raw) {
+    return [];
+  }
+
+  return raw
+    .split(",")
+    .map((address) => address.trim().toLowerCase())
+    .filter((address) => address.length > 0);
+};
+
 if (!isTest && isCloudRuntime && !DATABASE_URL) {
   throw new Error(
     "DATABASE_URL is required in cloud deployments (production/staging/Render). Set it to your managed PostgreSQL connection string."
@@ -110,7 +126,7 @@ const poolConnectionTimeoutMillis = parseEnvInt(PG_POOL_CONNECTION_TIMEOUT_MS, 1
 const jwtSecret = requireEnv("JWT_SECRET", JWT_SECRET);
 const contractAddress = requireEnv("CONTRACT_ADDRESS", CONTRACT_ADDRESS);
 const adminPrivateKey = requireEnv("PRIVATE_KEY", PRIVATE_KEY);
-const rpcUrl = requireEnv("POLYGON_MUMBAI_RPC", POLYGON_MUMBAI_RPC);
+const rpcUrl = requireEnv("POLYGON_RPC_URL or POLYGON_MUMBAI_RPC", POLYGON_RPC_URL || POLYGON_MUMBAI_RPC);
 
 if (!isEvmAddress(contractAddress)) {
   throw new Error("CONTRACT_ADDRESS must be a valid 0x-prefixed 40-hex Ethereum address.");
@@ -128,24 +144,64 @@ if (isZeroPrivateKey(adminPrivateKey)) {
   throw new Error("PRIVATE_KEY cannot be all zeros. Set the real admin signer wallet private key.");
 }
 
+const adminSignerAddress = new ethers.Wallet(adminPrivateKey).address.toLowerCase();
+const configuredAdminWallets = parseAdminWalletAllowlist(ADMIN_WALLET_ADDRESS);
+
+for (const wallet of configuredAdminWallets) {
+  if (!isEvmAddress(wallet)) {
+    throw new Error("ADMIN_WALLET_ADDRESS must contain valid 0x-prefixed 40-hex Ethereum addresses.");
+  }
+
+  if (isZeroEvmAddress(wallet)) {
+    throw new Error("ADMIN_WALLET_ADDRESS cannot include the zero address.");
+  }
+}
+
+const allowedAdminWallets = Array.from(
+  new Set([adminSignerAddress, ...configuredAdminWallets])
+);
+
 let parsedRpcUrl: URL;
 try {
   // Validate upfront so startup errors point to env configuration, not downstream SDK failures.
   parsedRpcUrl = new URL(rpcUrl);
 } catch {
-  throw new Error("POLYGON_MUMBAI_RPC must be a valid URL.");
+  throw new Error("POLYGON_RPC_URL/POLYGON_MUMBAI_RPC must be a valid URL.");
 }
 
 if (!isTest && isCloudRuntime && parsedRpcUrl.protocol !== "https:") {
-  throw new Error("POLYGON_MUMBAI_RPC must use https:// in cloud deployments.");
+  throw new Error("POLYGON_RPC_URL/POLYGON_MUMBAI_RPC must use https:// in cloud deployments.");
 }
+
+const rawExplorerTxBaseUrl =
+  BLOCK_EXPLORER_TX_BASE_URL ||
+  POLYGON_EXPLORER_TX_BASE_URL ||
+  "https://amoy.polygonscan.com/tx/";
+
+let parsedExplorerTxBaseUrl: URL;
+try {
+  parsedExplorerTxBaseUrl = new URL(rawExplorerTxBaseUrl);
+} catch {
+  throw new Error("BLOCK_EXPLORER_TX_BASE_URL/POLYGON_EXPLORER_TX_BASE_URL must be a valid URL.");
+}
+
+if (!isTest && isCloudRuntime && parsedExplorerTxBaseUrl.protocol !== "https:") {
+  throw new Error("BLOCK_EXPLORER_TX_BASE_URL/POLYGON_EXPLORER_TX_BASE_URL must use https:// in cloud deployments.");
+}
+
+const explorerTxBaseUrl = rawExplorerTxBaseUrl.endsWith("/")
+  ? rawExplorerTxBaseUrl
+  : `${rawExplorerTxBaseUrl}/`;
 
 export const CONFIG = {
   databaseUrl: computedDatabaseUrl,
   jwtSecret,
   jwtExpiresIn: JWT_EXPIRES_IN || "7d",
   contractAddress: contractAddress.toLowerCase(),
+  adminSignerAddress,
+  allowedAdminWallets,
   rpcUrl,
+  explorerTxBaseUrl,
   adminPrivateKey,
   allowedOrigins: resolvedAllowedOrigins,
   runtimeEnv,

@@ -1,6 +1,6 @@
 import fs from "fs/promises";
 import path from "path";
-import { db } from "../config";
+import { CONFIG, db } from "../config";
 
 export interface DegreeRecord {
   id: number;
@@ -38,6 +38,12 @@ export class DatabaseService {
   private initialized = false;
 
   async isAdminActive(walletAddress: string): Promise<boolean> {
+    const normalizedWallet = walletAddress.toLowerCase();
+
+    if (CONFIG.allowedAdminWallets.includes(normalizedWallet)) {
+      return true;
+    }
+
     const result = await db.query(
       `
       SELECT 1
@@ -46,7 +52,7 @@ export class DatabaseService {
         AND is_active = TRUE
       LIMIT 1
       `,
-      [walletAddress.toLowerCase()]
+      [normalizedWallet]
     );
 
     return result.rows.length > 0;
