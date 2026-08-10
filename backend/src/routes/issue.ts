@@ -1,7 +1,7 @@
 import { Router, Request, Response } from "express";
 import Joi from "joi";
 import { blockchainService } from "../services/blockchain";
-import { databaseService, DegreeMetadata } from "../services/database";
+import { databaseService } from "../services/database";
 import { authenticateAdmin } from "../middleware/auth";
 
 const router = Router();

@@ -40,8 +40,9 @@ export default function StudentDegrees() {
       setDegrees(null);
       setError(err.response?.data?.error || "Failed to fetch degrees");
     } finally {
-      if (requestId !== latestRequestId.current) return;
-      setLoading(false);
+      if (requestId === latestRequestId.current) {
+        setLoading(false);
+      }
     }
   };
 

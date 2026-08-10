@@ -160,6 +160,7 @@ app.use((req, res) => {
 });
 
 // Error handler
+// eslint-disable-next-line @typescript-eslint/no-unused-vars -- `next` is required so Express recognizes this as an error middleware
 app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
   console.error(" Unhandled error:", err);
   res.status(500).json({ error: "Internal server error" });

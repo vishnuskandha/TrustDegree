@@ -1,6 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { Table } from '@/components/magic/Table';
 
 // Mock Magic UI Table component
 const MockTable = ({

@@ -160,7 +160,7 @@ const IssuePage = () => {
   };
 
   // Simulate transaction submission
-  const onSubmit: SubmitHandler<IssueFormData> = async (_data) => {
+  const onSubmit: SubmitHandler<IssueFormData> = async () => {
     setShowConfirmModal(true);
   };
 

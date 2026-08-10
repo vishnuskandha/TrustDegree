@@ -25,7 +25,9 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     },
     ref
   ) => {
-    const inputId = id || `input-${React.useId()}`;
+    // useId must be called unconditionally (Rules of Hooks)
+    const generatedId = React.useId();
+    const inputId = id || `input-${generatedId}`;
 
     return (
       <div className="w-full">

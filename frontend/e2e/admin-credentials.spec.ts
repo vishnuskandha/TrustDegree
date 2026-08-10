@@ -6,7 +6,7 @@ test.describe('Admin Credentials Management', () => {
   });
 
   test('should display admin credentials page', async ({ page }) => {
-    await expect(page).toHaveURL(/\/admin/credentials/);
+    await expect(page).toHaveURL(/\/admin\/credentials/);
 
     const heading = page.locator('h1, h2:has-text("Admin"), text=/credentials|manage/i').first();
     await expect(heading).toBeVisible();

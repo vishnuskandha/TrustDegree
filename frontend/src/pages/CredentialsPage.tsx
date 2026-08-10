@@ -177,13 +177,6 @@ export default function CredentialsPage() {
   // Selection state
   const [selectedRows, setSelectedRows] = useState<Set<string>>(new Set());
 
-  // Check admin auth
-  const token = localStorage.getItem("adminToken");
-  if (!token) {
-    navigate("/admin");
-    return null;
-  }
-
   // Fetch all degrees data at once for client-side filtering
   useEffect(() => {
     fetchAllDegrees();
@@ -294,6 +287,18 @@ export default function CredentialsPage() {
   useEffect(() => {
     setPage(1);
   }, [filters]);
+
+  // Check admin auth (after all hooks so hook order never changes between renders)
+  const token = localStorage.getItem("adminToken");
+  useEffect(() => {
+    if (!token) {
+      navigate("/admin");
+    }
+  }, [token, navigate]);
+
+  if (!token) {
+    return null;
+  }
 
   const handleSort = (field: SortField) => {
     if (sortField === field) {

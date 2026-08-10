@@ -1,6 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { Select } from '@/components/magic/Select';
 
 // Mock Magic UI Select component based on typical implementation
 const MockSelect = ({

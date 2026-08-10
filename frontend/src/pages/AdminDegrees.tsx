@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { QRCodeSVG } from "qrcode.react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -34,11 +34,7 @@ export default function AdminDegrees() {
   const [limit] = useState(20);
   const [qrToken, setQrToken] = useState<string | null>(null);
 
-  useEffect(() => {
-    fetchDegrees();
-  }, [page]);
-
-  const fetchDegrees = async () => {
+  const fetchDegrees = useCallback(async () => {
     setLoading(true);
     try {
       const res = await adminAPI.listDegrees(page, limit);
@@ -49,7 +45,11 @@ export default function AdminDegrees() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [page, limit]);
+
+  useEffect(() => {
+    fetchDegrees();
+  }, [fetchDegrees]);
 
   const token = localStorage.getItem("adminToken");
   useEffect(() => {

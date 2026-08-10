@@ -1,394 +1,279 @@
 <div align="center">
 
-#  TrustDegree
+# TrustDegree
 
 **Trusted Digital Diplomas & Certificates on the Blockchain**
 
-[![Vercel](https://img.shields.io/badge/Deploy-Vercel-000?logo=vercel)](https://vercel.com)
-[![React](https://img.shields.io/badge/React-18-61dafb?logo=react)](https://react.dev)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5-3178c6?logo=typescript)](https://typescriptlang.org)
+[![CI](https://github.com/vishnuskandha/TrustDegree/actions/workflows/ci.yml/badge.svg)](https://github.com/vishnuskandha/TrustDegree/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-
-[![Lighthouse Performance](https://img.shields.io/badge/Performance-90%2B-4CAF50?logo=lighthouse)](https://developer.chrome.com/docs/lighthouse/performance/)
-[![WCAG 2.1 AA](https://img.shields.io/badge/Accessibility-WCAG%202.1%20AA-0085FF?logo=a11y)](https://www.w3.org/WAI/standards-guidelines/wcag/)
-[![i18n](https://img.shields.io/badge/i18n-English%20%7B%7B%20%2B%20%7D%7D%20Tamil-FF6B6B?logo=translate)](./docs/i18n.md)
-
-[![21st.dev Magic](https://img.shields.io/badge/UI-21st.dev%20Magic-FF5722)](https://21st.dev/magic)
-[![Framer Motion](https://img.shields.io/badge/Animations-Framer%20Motion-FF6B9D?logo=framer)](https://motion.dev)
-[![Lenis](https://img.shields.io/badge/Scroll-Lenis-00BCD4)](https://lenis.studiofreight.com)
+[![Solidity](https://img.shields.io/badge/Solidity-0.8.19-363636?logo=solidity)](https://docs.soliditylang.org/)
+[![Hardhat](https://img.shields.io/badge/Hardhat-2-FFF100?logo=hardhat)](https://hardhat.org)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-3178c6?logo=typescript)](https://typescriptlang.org)
+[![React](https://img.shields.io/badge/React-18-61dafb?logo=react)](https://react.dev)
+[![Vite](https://img.shields.io/badge/Vite-4-646cff?logo=vite)](https://vite.dev)
 
 </div>
 
 ---
 
-##  What is TrustDegree?
+## What is TrustDegree?
 
-TrustDegree is a **decentralized academic credential verification system** that issues diplomas and certificates as **soulbound tokens** (non-transferable NFTs) on the blockchain.
-
-Universities create digital credentials → Students receive them in their wallets → Employers verify instantly by scanning a QR code.
-
-## Deployment
-
-For production deployment instructions (Vercel frontend + Render backend + managed PostgreSQL), see `DEPLOYMENT.md`.
-
-###  Why TrustDegree?
+TrustDegree is a **decentralized academic credential verification system**. Universities
+issue diplomas and certificates as **soulbound tokens** (non-transferable ERC-721 NFTs)
+on the blockchain; students receive them in their wallets; and anyone can verify a
+credential in seconds by scanning a QR code — no central authority required.
 
 | Feature | Benefit |
 |---------|---------|
-|  **Fraud-Proof** | Cryptography secures every credential. Cannot be forged or altered. |
-|  **Student-Owned** | Degrees go to student's digital wallet (not university database). They control it forever. |
-|  **Instant Verification** | Scan QR → see proof in seconds. No phone calls, no waiting. |
-|  **Globally Accessible** | Anyone, anywhere can verify credentials 24/7 without gatekeepers. |
-|  **Next-Level UX** | Smooth animations, mobile-first design, Tamil support, WCAG AA accessible. |
+| **Fraud-Proof** | Every credential is cryptographically secured on-chain. It cannot be forged or altered after issuance. |
+| **Student-Owned** | Credentials live in the student's wallet, not a university database. |
+| **Instant Verification** | Scan a QR code (or enter a token ID) for on-chain proof — no phone calls, no waiting. |
+| **Globally Accessible** | Anyone can verify credentials 24/7 without gatekeepers. |
+| **Tamil & English** | The UI is internationalized with react-i18next. |
 
----
+## Repository Layout
 
-##  Quick Start (5 Minutes)
+```
+TrustDegree/
+├── contracts/            # TrustDegree.sol — soulbound ERC-721 (Hardhat)
+├── test/                 # Contract tests (Hardhat / Chai)
+├── backend/              # Express + TypeScript REST API
+│   ├── src/routes/       # auth, issue, batch, verify, admin
+│   ├── src/services/     # blockchain.ts, database.ts
+│   └── sql/schema.sql    # PostgreSQL schema
+├── frontend/             # React 18 + Vite + TypeScript web app
+│   ├── src/pages/        # Home, Issue, Verify, Admin, ...
+│   ├── src/components/   # UI primitives + Magic wrappers
+│   ├── src/locales/      # en/ and ta/ translations
+│   └── e2e/              # Playwright specs
+├── scripts/              # deploy.ts, setup-local.sh, test-all.sh, ...
+├── env/                  # Production env examples
+├── docker-compose.yml    # Local PostgreSQL
+└── render.yaml           # Render blueprint (backend)
+```
+
+## Quick Start
 
 ### Prerequisites
 
-- Node.js 18+
+- Node.js 20+ (LTS recommended)
+- npm
 - Git
-- (Optional) MetaMask + Polygon Mumbai MATIC for live deployment
+- (Optional) Docker for the local PostgreSQL database
+- (Optional) MetaMask + Polygon Mumbai MATIC for live deployments
 
-### 1. Clone & Install
+### 1. Clone & install
 
 ```bash
-git clone https://github.com/your-org/trustdegree.git
-cd trustdegree/frontend
-npm install
+git clone https://github.com/vishnuskandha/TrustDegree.git
+cd TrustDegree
+
+# Smart contracts (root)
+npm ci
+
+# Backend
+cd backend && npm ci && cd ..
+
+# Frontend
+cd frontend && npm ci && cd ..
 ```
 
-### 2. Configure Environment
+### 2. Run the tests
 
 ```bash
+# Contracts — 19 tests
+npx hardhat test
+
+# Backend — Vitest (DB-backed tests are skipped unless RUN_DB_TESTS=true)
+cd backend && npm test && cd ..
+
+# Frontend — 230+ unit tests
+cd frontend && npm run test:unit && cd ..
+```
+
+### 3. Run the full stack locally
+
+**Terminal 1 — local chain & contract:**
+
+```bash
+npx hardhat node
+# in a second terminal, deploy to the local chain:
+npx hardhat run scripts/deploy.ts --network localhost
+# copy the printed contract address
+```
+
+**Terminal 2 — backend:**
+
+```bash
+cd backend
 cp .env.example .env
-```
-
-Edit `.env`:
-```env
-VITE_API_URL=http://localhost:3000
-VITE_CONTRACT_ADDRESS=0xYourContractAddressHere
-```
-
-**Need a demo?** The frontend includes sample credentials - just run the dev server!
-
-### 3. Start Development Server
-
-```bash
+# edit .env: set CONTRACT_ADDRESS to the deployed address and PRIVATE_KEY
+# to a dev wallet key (any valid 0x-prefixed 64-hex value works locally)
 npm run dev
 ```
 
-Open `http://localhost:5173` in your browser.
+**Terminal 3 — frontend:**
 
-### 4. Try the Demo
+```bash
+cd frontend
+cp .env.example .env
+# edit .env: set VITE_CONTRACT_ADDRESS to the deployed address
+npm run dev
+```
 
-- Go to **Home page** → scroll to "See It In Action"
-- Click "Try: TRD-2024-001" to verify a sample diploma
-- No login needed!
+Open http://localhost:5173.
 
----
+> No database running? Spin one up with `docker compose up -d` (postgres:15)
+> or set `DATABASE_URL` to any PostgreSQL instance.
 
-##  Demo Credentials
+## Smart Contracts
 
-Try verifying these sample IDs on the `/verify` page:
+The contract in `contracts/TrustDegree.sol` is a **soulbound ERC-721**:
+
+- `mintDegree(...)` — issue a credential to a student (admin only), increments a
+  global token ID counter and emits `DegreeIssued`.
+- `revokeDegree(...)` — revoke a credential with a reason (admin only), emits
+  `DegreeRevoked`.
+- `isValid(tokenId)` — on-chain validity check (exists and not revoked).
+- Soulbound enforcement — `transferFrom` / `safeTransferFrom` are blocked, so
+  credentials can never change hands.
+
+Built with OpenZeppelin Contracts on **Solidity 0.8.19** (optimizer 200 runs).
+Configured networks: `hardhat`, `localhost`, and `mumbai` (chain ID 80001).
+
+```bash
+# from the repo root
+npx hardhat compile        # compile
+npx hardhat test           # run the contract test suite
+npm run deploy:localhost   # deploy to a local hardhat node
+npm run deploy:mumbai      # deploy to Polygon Mumbai (needs PRIVATE_KEY + MATIC)
+```
+
+## Backend API
+
+Express + TypeScript API. All routes are mounted under `/api` and public
+endpoints are rate-limited; admin endpoints require a JWT obtained via
+wallet-signature login.
+
+| Method | Path | Description | Auth |
+|--------|------|-------------|------|
+| POST | `/api/auth/challenge` | Get a nonce to sign for a wallet | — |
+| POST | `/api/auth/admin-login` | Verify signature → JWT | — |
+| POST | `/api/issue/` | Issue a single credential | Admin JWT |
+| POST | `/api/batch-issue` | Issue multiple credentials | Admin JWT |
+| PUT | `/api/revoke/:tokenId` | Revoke a credential | Admin JWT |
+| GET | `/api/verify/:contractAddress/:tokenId` | Verify on-chain | — |
+| GET | `/api/verify/sample` | Sample verification data | — |
+| GET | `/api/degrees/:studentAddress` | Degrees for a wallet | — |
+| GET | `/api/admin/degrees` | List degrees (paginated) | Admin JWT |
+| GET | `/health` | Liveness check | — |
+| GET | `/ready` | Readiness check (includes DB ping) | — |
+
+Configuration is validated at startup (`src/config/index.ts`): invalid, missing,
+or zero-value `PRIVATE_KEY` / `CONTRACT_ADDRESS` values cause an immediate exit
+in any environment. In cloud deployments (`NODE_ENV=production`/`staging` or
+Render), `DATABASE_URL`, `ALLOWED_ORIGINS`, and an `https://` RPC URL are
+required.
+
+## Frontend
+
+React 18 + Vite + TypeScript, styled with Tailwind CSS v3, animated with
+Framer Motion + Lenis smooth scrolling, forms via React Hook Form + Zod, and
+i18n via react-i18next (English + Tamil). Includes a mobile-friendly QR
+scanner (html5-qrcode) on the verify page and a full admin credentials manager
+(search, filters, sort, pagination, bulk revoke, CSV export).
+
+```bash
+cd frontend
+npm run dev          # dev server on http://localhost:5173
+npm run build        # type-check + production build
+npm run preview      # preview the production build
+npm run test:unit    # Vitest unit tests
+npm run test:e2e     # Playwright (needs the stack running)
+npm run lint         # ESLint (zero warnings tolerated)
+```
+
+### Demo credentials
+
+In development, the frontend auto-seeds sample credentials (`src/lib/demo-seed.ts`).
+Try them on the `/verify` page:
 
 | Diploma ID | Student | University | Status |
 |------------|---------|------------|--------|
-| `TRD-2024-001` | Alice Johnson | Tech University |  Valid |
-| `TRD-2024-002` | Bob Williams | Global Business School |  Valid |
-| `TRD-2024-003` | Carol Martinez | Institute of Advanced Sciences |  Valid |
-| `TRD-2024-006` | Frank Miller | Polytechnic University |  Revoked |
+| `TRD-2024-001` | Alice Johnson | Tech University | Valid |
+| `TRD-2024-002` | Bob Williams | Global Business School | Valid |
+| `TRD-2024-003` | Carol Martinez | Institute of Advanced Sciences | Valid |
+| `TRD-2024-006` | Frank Miller | Polytechnic University | Revoked |
 
----
+## Testing & CI
 
-##  Screenshots
+GitHub Actions (` .github/workflows/ci.yml`) runs three jobs on every push to
+`main` and on pull requests:
 
-### Home Page
-Modern, animated landing with smooth scroll effects and live demo.
+| Job | Commands |
+|-----|----------|
+| Contracts | `hardhat compile`, `hardhat test`, `solhint` |
+| Backend | `eslint`, `tsc`, `vitest run` |
+| Frontend | `eslint` (zero warnings), `tsc && vite build`, `vitest run` |
 
-[SCREENSHOT: Home hero section with gradient background, animated stats counter, and QuickVerify form]
+The DB-backed backend tests (`backend/src/test/database.test.ts`) run only when
+`RUN_DB_TESTS=true` against a database whose name contains `test` — a safety
+guard against destructive writes.
 
-### Issue Credential
-Professional multi-step form with real-time validation and QR preview.
+## Deployment
 
-[SCREENSHOT: Issue form showing student info, degree details, and transaction preview modal]
+Production deployment is documented in [DEPLOYMENT.md](DEPLOYMENT.md) and
+tracked in [deploy-checklist.md](deploy-checklist.md).
 
-### Verify Diploma
-Dual input modes (manual + QR scanner) with beautiful result cards.
+- **Frontend → Vercel**: `frontend/` is a self-contained Vite app with
+  `vercel.json` (SPA rewrites + immutable asset caching).
+- **Backend → Render**: `render.yaml` blueprint deploys `backend/` via Docker
+  (`backend/Dockerfile`) with health checks on `/health`.
+- **Database**: managed PostgreSQL (e.g. Render Postgres or Neon), configured
+  via `DATABASE_URL`; schema at `backend/sql/schema.sql` is applied at startup.
+- **Configuration**: copy `env/backend.env.production.example` and
+  `env/frontend.env.production.example` as references for platform secrets.
 
-[SCREENSHOT: Verify page showing successful verification with green badge and diploma details]
-
----
-
-##  How It Works
-
-```
-┌─────────────┐     ┌──────────────┐     ┌──────────────┐
-│  University │     │   Backend    │     │   Student    │
-│   Admin     │────│    API       │────│   Wallet     │
-└─────────────┘     └──────────────┘     └──────────────┘
-       │                     │                      │
-       │ 1. Fill form        │                      │
-       │────────────────────│                      │
-       │                     │ 2. Mint credential   │
-       │                     │─────────────────────│
-       │                     │                      │ 3. Receive NFT
-       │                     │                      │ (soulbound)
-       │                     │                      │─────────────────┐
-       │                     │                      │                  │
-       │                     │                      │ 4. Share QR      │
-       │                     │                      │                  │
-       └─────────────────────┴──────────────────────┴──────────────────┘
-                                   │
-                                   ▼
-                            ┌──────────────┐
-                            │  Employer    │
-                            │  Scans QR    │
-                            └──────────────┘
-```
-
-1. **Create** → University admin fills simple web form
-2. **Mint** → Backend creates soulbound NFT in student's wallet
-3. **Receive** → Student gets credential in their digital wallet forever
-4. **Verify** → Anyone scans QR or enters ID → instant proof on blockchain
-
----
-
-##  Tech Stack
-
-### Smart Contracts
-- **Language:** Solidity 0.8.19
-- **Standard:** ERC-721 (non-transferable)
-- **Framework:** Hardhat
-- **Library:** OpenZeppelin Contracts
-
-### Backend
-- **Runtime:** Node.js + Express + TypeScript
-- **Database:** PostgreSQL (caching layer)
-- **Blockchain:** ethers.js + Polygon Mumbai
-- **Auth:** JWT tokens
-
-### Frontend  **NEW & IMPROVED**
-- **Framework:** React 18 + TypeScript + Vite
-- **Styling:** Tailwind CSS v4 + CSS Custom Properties
-- **Design System:** UI/UX Pro Max (SaaS Modern style, Micro-Credentials palette)
-- **Components:** 21st.dev Magic (100+ pre-built components)
-- **Animations:** Framer Motion + Lenis smooth scroll
-- **Forms:** React Hook Form + Zod validation
-- **i18n:** react-i18next (English + Tamil supported)
-- **Accessibility:** WCAG 2.1 AA compliant
-
----
-
-##  What's New (March 2026)
-
-We completely overhauled the frontend with next-level UI/UX:
-
-###  Design System
-- Professional **SaaS Modern** aesthetic (trustworthy, approachable)
-- Carefully curated color palette (Trust blue + achievement gold)
-- Typography: Calistoga headings + Inter body text
-- Consistent spacing, shadows, border radius everywhere
-
-###  Component Library
-- **12 Magic wrapper components** (Button, Card, Input, Badge, Table, Modal, Skeleton, Toast, etc.)
-- **4 custom UI primitives** (StatusBadge, AddressDisplay, AnimatedCard, EmptyState)
-- **3 layout components** (PageHeader, ContentContainer, Section)
-
-###  Animations
-- **Lenis smooth scrolling** (60fps inertia)
-- **Page transitions** (fade/slide on route change)
-- **Micro-interactions** (magnetic buttons, card lift, ripple effects)
-- **Scroll-triggered reveals** (elements animate as you scroll)
-
-###  User Experience
-- **Form completion time reduced 44%** (45s → 25s)
-- **Real-time validation** with friendly errors
-- **Auto-save drafts** (no lost work on refresh)
-- **QR scanner** for mobile verification
-- **Smooth loading states** (skeleton screens, not spinners)
-
-###  Internationalization
-- **English + Tamil** support (Tamil ready for human translation)
-- All user-facing strings extracted to translation files
-- Language switcher in navbar
-- Simple, 8th-grade reading level (no jargon)
-
-###  Accessibility
-- **WCAG 2.1 Level AA** compliant
-- Keyboard navigation (Tab, Shift+Tab, Enter, Space)
-- Screen reader tested (NVDA, VoiceOver)
-- Skip-to-content link
-- Focus management in modals
-- Reduced motion support
-
-###  Performance
-- **Lighthouse:** Performance 90+, Accessibility 95+, Best Practices 95+
-- Code splitting & lazy loading
-- Tree-shaken bundle (<500KB gzipped)
-
----
-
-##  Pages
-
-| Route | Description |
-|-------|-------------|
-| `/` | Home - Animated landing page with live demo |
-| `/how-it-works` | Simple 4-step explanation (for non-technical users) |
-| `/verify` | Verify credential (manual entry OR QR scanner) |
-| `/issue` | Admin-only: Create new credential (multi-step form) |
-| `/admin/credentials` | Admin-only: Manage all credentials (filter, search, bulk actions) |
-| `/technical-docs` | Developer documentation (architecture, API reference) |
-
----
-
-##  Development
-
-### Scripts
-
-```bash
-# Frontend
-npm run dev          # Start dev server (localhost:5173)
-npm run build        # Production build
-npm run preview      # Preview production build
-npm run test         # Run unit tests (Vitest)
-npm run lint         # ESLint check
-npm run format       # Prettier format
-```
-
-### Project Structure
-
-```
-frontend/
-├── src/
-│   ├── components/
-│   │   ├── magic/          # 21st.dev Magic wrappers
-│   │   ├── ui/             # Project primitives (StatusBadge, etc.)
-│   │   ├── layout/         # Page layout (PageHeader, Section)
-│   │   └── Accessibility/  # SkipLink
-│   ├── lib/
-│   │   ├── motion-config.tsx   # Framer Motion variants
-│   │   ├── utils.ts            # cn() helper
-│   │   └── demo-seed.ts        # Demo data generator
-│   ├── locales/
-│   │   ├── en/              # English translations
-│   │   └── ta/              # Tamil translations
-│   ├── pages/               # route pages
-│   └── App.tsx              # Router + layout
-├── docs/
-│   ├── BEFORE_AFTER.md      # Complete upgrade documentation
-│   ├── deploy.md            # Deployment guide
-│   ├── accessibility.md     # Accessibility statement
-│   └── i18n.md              # Internationalization guide
-└── README.md                # This file
-```
-
----
-
-##  Documentation
+## Documentation
 
 | Document | Purpose |
 |----------|---------|
-| [BEFORE_AFTER.md](./docs/BEFORE_AFTER.md) | Complete UI/UX upgrade comparison |
-| [accessibility.md](./docs/accessibility.md) | WCAG compliance & a11y features |
-| [i18n.md](./docs/i18n.md) | Internationalization guide |
-| [deploy.md](./docs/deploy.md) | Production deployment |
-| [COMPONENTS.md](./src/components/README.md) | Component library usage |
+| [DEPLOYMENT.md](DEPLOYMENT.md) | Production deployment guide |
+| [deploy-checklist.md](deploy-checklist.md) | Pre-launch deployment checklist |
+| [frontend/docs/deploy.md](frontend/docs/deploy.md) | Frontend deployment notes |
+| [frontend/docs/i18n.md](frontend/docs/i18n.md) | Internationalization guide |
+| [frontend/docs/accessibility.md](frontend/docs/accessibility.md) | Accessibility statement |
+| [frontend/docs/BEFORE_AFTER.md](frontend/docs/BEFORE_AFTER.md) | Frontend redesign notes |
 
----
+## Security
 
-##  Testing
+- All backend input is validated with Joi; frontend forms use Zod.
+- Helmet security headers, CORS allowlist, and rate limiting on public endpoints.
+- Admin actions require wallet-signature login (JWT) plus an admin-wallet
+  allowlist (`ADMIN_WALLET_ADDRESS` and the configured signer wallet).
+- The contract restricts minting/revocation to the admin role.
+- No secrets in the frontend: only `VITE_`-prefixed variables are bundled.
 
-### Run Tests
-```bash
-cd frontend
-npm test
-```
+See [SECURITY.md](SECURITY.md) for the vulnerability disclosure process.
 
-### E2E Testing (Playwright)
-```bash
-npm run test:e2e
-```
+## Contributing
 
-### Accessibility Audit
-```bash
-# Chrome DevTools → Lighthouse → Accessibility
-# Target: 95+
-```
+Contributions are welcome — see [CONTRIBUTING.md](CONTRIBUTING.md) for setup,
+workflow, and guidelines. Areas that need the most help:
 
----
+- Tamil translation review (and new languages)
+- More component tests (target: 80%+ coverage)
+- Playwright e2e coverage that runs against a real stack
+- Mobile device testing reports
 
-##  Security
+## License
 
--  All user inputs validated (Zod schemas)
--  No secrets in frontend (`VITE_` prefixed env only)
--  CSRF protection (backend)
--  Rate limiting on public endpoints (backend)
--  HTTPS enforced in production
--  Content Security Policy headers
-
-See `SECURITY.md` (coming soon) for responsible disclosure.
-
----
-
-##  Deployment
-
-### Vercel (Recommended)
-
-```bash
-vercel --prod
-```
-
-[See detailed guide](./docs/deploy.md)
-
----
-
-##  Contributing
-
-We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
-
-**Areas we need help:**
--  Tamil translations (complete the `ta/` files)
--  Additional languages (Spanish, French, Hindi?)
--  Component design (create more Magic-compatible components)
--  Test coverage (aim for 80%+)
--  Mobile testing (report issues)
-
----
-
-##  License
-
-MIT - see [LICENSE](LICENSE) file.
-
----
-
-##  Acknowledgments
-
-TrustDegree is built with  using:
-
-- **[OpenZeppelin Contracts](https://openzeppelin.com/contracts/)** - Secure ERC-721 implementation
-- **[Hardhat](https://hardhat.org/)** - Ethereum development environment
-- **[21st.dev Magic](https://21st.dev/magic)** - Beautiful React components
-- **[Framer Motion](https://motion.dev/)** - Animation library
-- **[Lenis](https://lenis.studiofreight.com/)** - Smooth scroll
-- **[UI/UX Pro Max](https://uipro.com/)** - Design system (via `uipro-cli`)
-- **All our wonderful contributors** - [GitHub Contributors](https://github.com/your-org/trustdegree/graphs/contributors)
-
----
-
-##  Contact
-
-- **GitHub Issues:** https://github.com/your-org/trustdegree/issues
-- **Email:** hello@trustdegree.com (placeholder)
-- **Website:** https://trustdegree.com (coming soon)
+MIT — see [LICENSE](LICENSE).
 
 ---
 
 <div align="center">
 
-**Made with  for a world where every credential is trusted.**
-
-[ Back to top](#-trustdegree)
+**Made for a world where every credential is trusted.**
 
 </div>
