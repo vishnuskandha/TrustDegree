@@ -28,9 +28,6 @@ export class BlockchainService {
     );
   }
 
-  /**
-   * Mint a new degree token
-   */
   async issueDegree(
     studentAddress: string,
     studentName: string,
@@ -66,23 +63,14 @@ export class BlockchainService {
         }
       }
 
-      if (!tokenId) {
-        throw new Error("Failed to extract tokenId from transaction receipt");
-      }
-
-      return {
-        tokenId: BigInt(tokenId.toString()),
-        txHash: receipt.hash,
-      };
+      if (!tokenId) throw new Error("Failed to extract tokenId from transaction receipt");
+      return { tokenId: BigInt(tokenId), txHash: receipt.hash };
     } catch (error: any) {
       console.error(" issueDegree error:", error);
       throw new Error(`Blockchain issue failed: ${error.message}`);
     }
   }
 
-  /**
-   * Revoke a degree token
-   */
   async revokeDegree(tokenId: bigint, reason: string): Promise<string> {
     try {
       const tx = await this.contract.revokeDegree(tokenId, reason);
@@ -95,20 +83,21 @@ export class BlockchainService {
   }
 
   /**
-   * Check on-chain validity of a token (read-only)
+   * Check on-chain validity against the exact contract being verified.
    */
-  async isValid(tokenId: bigint): Promise<boolean> {
+  async isValid(tokenId: bigint, contractAddress = CONFIG.contractAddress): Promise<boolean> {
     try {
-      return await this.contract.isValid(tokenId);
+      const normalizedAddress = ethers.getAddress(contractAddress);
+      const contract = normalizedAddress.toLowerCase() === CONFIG.contractAddress.toLowerCase()
+        ? this.contract
+        : new ethers.Contract(normalizedAddress, TRUSTDEGREE_ABI, this.provider);
+      return await contract.isValid(tokenId);
     } catch (error: any) {
       console.error(" isValid error:", error);
       return false;
     }
   }
 
-  /**
-   * Get token owner (student address)
-   */
   async getOwner(tokenId: bigint): Promise<string> {
     try {
       return await this.contract.ownerOf(tokenId);
@@ -118,9 +107,6 @@ export class BlockchainService {
     }
   }
 
-  /**
-   * Get token metadata URI
-   */
   async getTokenURI(tokenId: bigint): Promise<string> {
     try {
       return await this.contract.tokenURI(tokenId);
@@ -130,20 +116,8 @@ export class BlockchainService {
     }
   }
 
-  /**
-   * Get contract address
-   */
-  getContractAddress(): string {
-    return CONFIG.contractAddress;
-  }
-
-  /**
-   * Get admin wallet address
-   */
-  getAdminAddress(): string {
-    return this.wallet.address;
-  }
+  getContractAddress(): string { return CONFIG.contractAddress; }
+  getAdminAddress(): string { return this.wallet.address; }
 }
 
-// Singleton instance
 export const blockchainService = new BlockchainService();
