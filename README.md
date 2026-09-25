@@ -1,6 +1,10 @@
 <div align="center">
 
+<div align="center">
+
 # TrustDegree
+
+</div>
 
 
 <!-- README polish: repository metadata badges -->
