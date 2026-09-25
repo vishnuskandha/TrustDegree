@@ -2,6 +2,16 @@
 
 # TrustDegree
 
+
+<!-- README polish: repository metadata badges -->
+<p>
+  <a href="https://github.com/vishnuskandha/TrustDegree"><img alt="GitHub stars" src="https://img.shields.io/github/stars/vishnuskandha/TrustDegree?style=for-the-badge&logo=github&label=Stars"></a>
+  <a href="https://github.com/vishnuskandha/TrustDegree/fork"><img alt="GitHub forks" src="https://img.shields.io/github/forks/vishnuskandha/TrustDegree?style=for-the-badge&logo=github&label=Forks"></a>
+  <a href="https://github.com/vishnuskandha/TrustDegree/issues"><img alt="GitHub issues" src="https://img.shields.io/github/issues/vishnuskandha/TrustDegree?style=for-the-badge&logo=github&label=Issues"></a>
+  <a href="https://github.com/vishnuskandha/TrustDegree/commits"><img alt="Last commit" src="https://img.shields.io/github/last-commit/vishnuskandha/TrustDegree?style=for-the-badge&logo=git&label=Updated"></a>
+</p>
+<!-- End README polish -->
+
 **Trusted Digital Diplomas & Certificates on the Blockchain**
 
 [![CI](https://github.com/vishnuskandha/TrustDegree/actions/workflows/ci.yml/badge.svg)](https://github.com/vishnuskandha/TrustDegree/actions/workflows/ci.yml)
